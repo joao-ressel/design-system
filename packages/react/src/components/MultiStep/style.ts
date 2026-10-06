@@ -1,0 +1,37 @@
+import { styled } from "../../styles";
+import { Text } from "../Text";
+
+export const MultiStepContainer = styled("div", {
+  display: "flex",
+  gap: "$2",
+  flexDirection: "column",
+});
+
+export const Label = styled(Text, {
+  color: "$gray200",
+  width: "100%",
+  defaultVariants: {
+    size: "xs",
+  },
+});
+
+export const Steps = styled("div", {
+  display: "grid",
+  gap: "$2",
+  gridTemplateColumns: "repeat(var(--steps-size), 1fr)",
+  marginTop: "$1",
+});
+
+export const Step = styled("div", {
+  height: "$1",
+  borderRadius: "$px",
+  background: "$gray600",
+
+  variants: {
+    active: {
+      true: {
+        background: "$gray100",
+      },
+    },
+  },
+});

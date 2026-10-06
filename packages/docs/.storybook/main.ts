@@ -3,7 +3,7 @@ import type { StorybookConfig } from "@storybook/react-vite";
 const config: StorybookConfig = {
   docs: {
     defaultName: "Documentation",
-    docsMode: true,
+    docsMode: false,
   },
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   addons: [
@@ -11,6 +11,7 @@ const config: StorybookConfig = {
     "@storybook/addon-docs",
     "@storybook/addon-a11y",
     "@storybook/addon-vitest",
+    "@storybook/addon-a11y",
   ],
   framework: {
     name: "@storybook/react-vite",
