@@ -5,6 +5,7 @@
   "scripts": {
     "build-vite": "tsc && vite build",
     "dev": "storybook dev -p 6006",
+    "deploy-storybook": "storybook-to-ghpages",
     "build": "storybook build"
   },
   "dependencies": {
@@ -23,6 +24,7 @@
     "@storybook/addon-docs": "^10.0.8",
     "@storybook/addon-vitest": "^10.0.8",
     "@storybook/react-vite": "^10.0.8",
+    "@storybook/storybook-deployer": "^2.8.16",
     "@vitejs/plugin-react": "^5.1.0",
     "@vitest/browser-playwright": "^4.0.10",
     "@vitest/coverage-v8": "^4.0.10",
