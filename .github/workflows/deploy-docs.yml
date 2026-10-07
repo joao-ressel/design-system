@@ -27,8 +27,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
-        run: npm run build
+      - name: Build com logs detalhados
+        timeout-minutes: 15
+        run: npm run build -- --ui=stream --log-order=stream --output-logs=full
+        env:
+          CI: "true"
+          STORYBOOK_DISABLE_TELEMETRY: "1"
+          TURBO_TELEMETRY_DISABLED: "1"
 
       - name: Deploy Storybook
         working-directory: ./packages/docs
