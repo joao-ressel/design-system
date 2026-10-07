@@ -4,13 +4,28 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     env:
-      CI: true
+      CI: "true"
       STORYBOOK_DISABLE_TELEMETRY: "1"
       TURBO_TELEMETRY_DISABLED: "1"
 
@@ -21,22 +36,24 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: 24
+          node-version: "24"
           cache: npm
 
-      - name: Install dependencies
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Instalar dependências
         run: npm ci
 
       - name: Build com logs detalhados
         timeout-minutes: 15
         run: npm run build -- --ui=stream --log-order=stream --output-logs=full
-        env:
-          CI: "true"
-          STORYBOOK_DISABLE_TELEMETRY: "1"
-          TURBO_TELEMETRY_DISABLED: "1"
 
-      - name: Deploy Storybook
-        working-directory: ./packages/docs
-        run: npm run deploy-storybook -- --ci --existing-output-dir=storybook-static
-        env:
-          GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
+      - name: Enviar arquivos do Storybook
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: packages/docs/storybook-static
+
+      - name: Publicar Storybook
+        id: deployment
+        uses: actions/deploy-pages@v4
