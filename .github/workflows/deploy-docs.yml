@@ -8,6 +8,12 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
+    env:
+      CI: true
+      STORYBOOK_DISABLE_TELEMETRY: "1"
+      TURBO_TELEMETRY_DISABLED: "1"
+
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -16,12 +22,15 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 24
+          cache: npm
 
-      - run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-      - run: npm run build
+      - name: Build
+        run: npm run build
 
-      - name: Deploy storybook
+      - name: Deploy Storybook
         working-directory: ./packages/docs
         run: npm run deploy-storybook -- --ci --existing-output-dir=storybook-static
         env:
