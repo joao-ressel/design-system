@@ -7,5 +7,5 @@ export default defineConfig({
   dts: true,
   external: ["react"],
   // Esta linha é crucial para garantir o modo watch
-  watch: true,
+  watch: false,
 });
